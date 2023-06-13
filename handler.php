@@ -1,26 +1,24 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-/*
-Tested working with PHP5.4 and above (including PHP 7 )
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
 
- */
-require_once './vendor/autoload.php';
+    $to = 'yogabayusbi@gmail.com'; // Replace with the recipient email address
+    $subject = 'New Message from Website';
+    $headers = "From: $name <$email>" . "\r\n";
+    $headers .= "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type: text/html; charset=UTF-8" . "\r\n";
 
-use FormGuide\Handlx\FormHandler;
+    $body = "<h2>New Message from Website</h2>";
+    $body .= "<p><strong>Name:</strong> $name</p>";
+    $body .= "<p><strong>Email:</strong> $email</p>";
+    $body .= "<p><strong>Message:</strong> $message</p>";
 
-
-$pp = new FormHandler();
-
-$validator = $pp->getValidator();
-$validator->fields(['name', 'email'])->areRequired()->maxLength(50);
-$validator->field('email')->isEmail();
-$validator->field('message')->maxLength(6000);
-
-
-
-
-$pp->sendEmailTo('yogabayusbi@gmail.com'); // ← Your email here
-
-echo $pp->process($_POST);
+    if (mail($to, $subject, $body, $headers)) {
+        echo "Email sent successfully.";
+    } else {
+        echo "Failed to send email.";
+    }
+}
+?>
