@@ -110,24 +110,18 @@
           Saya Seorang
           <span
             class="typed"
-            data-typed-items="Freelancer, Teknisi, Developer"
+            data-typed-items="Developer, Teknisi, Freelancer"
           ></span>
         </p>
         <div class="social-links">
-          <a href="https://twitter.com/yoga_1721" class="twitter"
-            ><i class="bx bxl-twitter"></i
-          ></a>
-          <a href="https://facebook.com/bayu.angin.39" class="facebook"
-            ><i class="bx bxl-facebook"></i
-          ></a>
-          <a href="https://www.instagram.com/yogabayu.ap" class="instagram"
+          <a class="instagram" target="_blank"
             ><i class="bx bxl-instagram"></i
           ></a>
-          <a
-            href="www.linkedin.com/in/yoga-bayu-anggana-pratama"
-            class="linkedin"
+          <a class="github" target="_blank"><i class="bx bxl-github"></i></a>
+          <a class="linkedin" target="_blank"
             ><i class="bx bxl-linkedin"></i
           ></a>
+          <a class="website" target="_blank"><i class="bx bxl-chrome"></i></a>
         </div>
       </div>
     </section>
@@ -139,20 +133,7 @@
         <div class="container" data-aos="fade-up">
           <div class="section-title">
             <h2>About Me:</h2>
-            <p>
-              I am a D3 graduate of Madiun State Polytechnic majoring in
-              Computer Control Engineering in 2020. Focus on learning about weak
-              current electronics, programming languages, PLC and robotics. I
-              had an internship at BMKG Maritim Perak 2 Surabaya for 2 months as
-              an Observer. My work experience is at RSUD Kertosono as a Computer
-              and Network Technician starting in January 2020, and as IT
-              Development Specialist at Maesa Group starting in August 2022. I
-              am in RSUD Kertosono charge of Performing Computer and Network
-              Maintenance and creating websites and android applications. And
-              trusted as the PIC of the unit that I occupy, and in Maesa Group
-              charge of maintenance website and android program, build new
-              release android app.
-            </p>
+            <p class="aboutme"></p>
           </div>
 
           <div class="row">
@@ -328,9 +309,6 @@
                 <h5>Agustus 2022 - Sekarang</h5>
                 <p><em>Di PT. Maesa Cipta Corporindo </em></p>
                 <ul>
-                  <!-- - Melakukan Pembuatan Website dan Aplikasi Android sesuai kebutuhan perusahaan
-- Troubleshooting website dan aplikasi android dari Perusahaan
-- Melakukan Maintenance dan penambahan fitur sesuai permintaan Perusahaan -->
                   <li>
                     Melakukan Pembuatan Website dan Aplikasi Android sesuai
                     kebutuhan perusahaan
@@ -1214,5 +1192,42 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+    <!-- Tambahkan skrip Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      // Fungsi untuk melakukan permintaan GET menggunakan Axios
+      function getData() {
+        axios
+          .get("http://127.0.0.1:8000/api/umum/user")
+          .then(function (response) {
+            let profile = response.data;
+            let instagramLink = profile.message.instagram;
+            let instagramElement = document.querySelector(".instagram");
+            instagramElement.href = `${instagramLink}`;
+
+            let githubLink = profile.message.github;
+            let github = document.querySelector(".github");
+            github.href = `${githubLink}`;
+
+            let websiteLink = profile.message.website;
+            let website = document.querySelector(".website");
+            website.href = `${websiteLink}`;
+
+            let linkedinLink = profile.message.linkedin;
+            let linkedin = document.querySelector(".linkedin");
+            linkedin.href = `${linkedinLink}`;
+
+            let aboutMeElement = document.querySelector(".aboutme");
+            let aboutMeData = profile.message.desc;
+            aboutMeElement.textContent = aboutMeData;
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      }
+
+      // Panggil fungsi getData untuk mendapatkan data saat halaman dimuat
+      getData();
+    </script>
   </body>
 </html>
